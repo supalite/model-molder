@@ -59,3 +59,53 @@ Check whether your domain's *official* corpus needs this. Roblox's own published
 fine-tuning corpus needed 620 rewrites across its first 1,914 rows, had 281 rows that were
 rejects outright, and 99.6% of it predated the language's type system.
 
+---
+
+## Stage 3. Mutation-based task mining
+
+This is the core of the method. It manufactures training tasks whose correct answer already
+exists and has been verified.
+
+```
+for each candidate file:
+    verify ORIGINAL through every gate      -> must PASS, else discard
+    inject a defect
+    verify MUTANT through every gate        -> must FAIL, else discard
+    emit (instruction, mutated file, original file) as a training sample
+```
+
+**Requirements**
+
+- The original must pass before you mutate it. Otherwise you are teaching the model to
+  reproduce code that does not work.
+- The mutant must fail. This is mutation testing's kill criterion. A mutant your toolchain
+  cannot distinguish from the original produces a sample that asks the model to make an
+  edit whose necessity nobody can demonstrate. Count these and discard them.
+- Group evaluation splits by source repository, never by file. See Stage 5.
+
+**Operator design**
+
+Each operator should be the inverse of something the model must get right. Ours:
+
+| operator | inverse of | acceptance |
+|---|---|---|
+| deprecate | current idiom | kill-verified |
+| hallucinate | real API knowledge | kill-verified |
+| weaken_types | type discipline | kill-verified |
+| implement_from_signature | module architecture | structural |
+
+The last one is different and the difference matters. It removes function bodies while
+keeping types, signatures and documentation, then asks for an implementation. A stub is
+incomplete rather than broken, and often still type-checks, so a kill criterion would
+reject every architectural task you could construct. We accept these structurally instead:
+the reference passed every gate and some number of bodies were verifiably removed. That is
+a weaker guarantee and should be reported separately rather than blended in.
+
+**Sanity check your operators against ground truth.** One of our "hallucinated" API names
+turned out to be real. The mutant was still killed, for an unrelated reason, so the sample
+entered the dataset carrying a stated cause that was false. Verify every invented name
+against your domain's published definitions.
+
+**Yield.** Ours ran at 15.7% of candidate files, dominated by originals that failed their
+own gates. That loss filters for quality and should not be optimised away.
+
