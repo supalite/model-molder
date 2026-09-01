@@ -1,0 +1,43 @@
+{
+  "rows": 39521,
+  "repos": 1278,
+  "bytes": 164424248,
+  "approx_tokens": 47683031,
+  "sources": 1280,
+  "by_kind": {
+    "file": 36668,
+    "fragment": 1591,
+    "doc": 1262
+  },
+  "by_license": {
+    "MIT": 33443,
+    "Apache-2.0": 2464,
+    "Roblox-Luau-Data-Sharing": 1591,
+    "CC-BY-4.0": 1262,
+    "Unlicense": 514,
+    "CC0-1.0": 76,
+    "ISC": 64,
+    "MIT-0": 48,
+    "BSD-3-Clause": 44,
+    "BSD-2-Clause": 12,
+    "Zlib": 3
+  },
+  "top_sources": {
+    "gh:tijnepema/lucide-roblox": 8155,
+    "hf:Roblox/luau_corpus": 1591,
+    "docs:Roblox/creator-docs": 1262,
+    "gh:josha/Facet": 756,
+    "gh:DiscordLuau/discord-luau": 478,
+    "gh:Roblox/jest-roblox": 418,
+    "gh:Raild3x/ModulesOnRails": 378,
+    "gh:Roblox/Core-Scripts": 364,
+    "gh:berezaa/vesteria": 331,
+    "gh:luau-lang/lute": 324,
+    "gh:jsdotlua/react-lua": 318,
+    "gh:ericplane/Scribe": 301,
+    "gh:TenebrisNoctua/FusionFoundation": 294,
+    "gh:revvy02/rodeo": 275,
+    "gh:horsenuggets/discord-luau-fork": 274
+  },
+  "attribution_entries": 1249
+}
