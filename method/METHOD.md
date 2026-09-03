@@ -109,3 +109,49 @@ against your domain's published definitions.
 **Yield.** Ours ran at 15.7% of candidate files, dominated by originals that failed their
 own gates. That loss filters for quality and should not be optimised away.
 
+---
+
+## Stage 4. Teacher generation
+
+Cover the task shapes mining cannot reach.
+
+Mining mutates files that already exist, so it can only produce tasks in the shape of
+"repair this". Anything requiring novel structure, and any domain absent from your scraped
+corpus, needs a generator. Route those outputs through the identical gates: a teacher's
+output has no more claim to correctness than a scraped file's.
+
+Free-tier endpoints are adequate here if you are patient. Ours ran unattended for four
+days at a 72.5% verification rate.
+
+---
+
+## Stage 5. Splits and evaluation
+
+Three properties, each of which we got wrong on the first attempt.
+
+**Group by repository, not by file.** Splitting on the sample puts files from the same
+codebase on both sides of the split. A model can then learn a repository's house style,
+type aliases and naming conventions, and present memorisation as generalisation. When we
+checked our first split, every repository in the evaluation set also appeared in training.
+
+**Make membership stable.** If the split is reshuffled on each rebuild, a baseline measured
+before a rebuild cannot be compared with a model measured after one. Hash a stable key
+(we hash the repository name) rather than shuffling.
+
+**Pin the evaluation file.** Both sides of a comparison must read the same file. Have the
+comparison tool refuse to run if the task sets differ, rather than trusting discipline.
+
+**Metrics.** Report pass@1, defined as the code running and producing what was asked. We
+also track the number of gates a task cleared before failing, which gives a finer signal
+during development, but it makes no claim about task completion and should not be reported
+as an outcome.
+
+**Use a paired test.** McNemar's exact test on the discordant pairs is appropriate here.
+An unpaired difference of proportions discards the pairing that makes a small evaluation
+set usable at all.
+
+**Decode greedily.** Sampling with temperature introduces run-to-run variance. We measured
+the same unmodified baseline scoring 32 and 27 out of 100 on two runs that differed only
+in a parameter that provably affected neither. At n=100 and p≈0.3 the standard deviation
+is about 4.6 tasks, comparable to effects we had been treating as findings.
+
