@@ -1,0 +1,18 @@
+{
+  "train": {
+    "mined_deprecate": 271,
+    "mined_weaken_types": 920,
+    "teacher:roblox": 105,
+    "mined_implement_from_signature": 535,
+    "teacher:blender": 325,
+    "mined_hallucinate": 107
+  },
+  "eval": {
+    "teacher:blender": 42,
+    "mined_hallucinate": 12,
+    "mined_weaken_types": 122,
+    "mined_implement_from_signature": 26,
+    "mined_deprecate": 49,
+    "teacher:roblox": 10
+  }
+}
