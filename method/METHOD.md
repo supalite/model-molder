@@ -155,3 +155,24 @@ the same unmodified baseline scoring 32 and 27 out of 100 on two runs that diffe
 in a parameter that provably affected neither. At n=100 and p≈0.3 the standard deviation
 is about 4.6 tasks, comparable to effects we had been treating as findings.
 
+---
+
+## Stage 6. Verify your instrumentation
+
+We found eleven bugs in our own measurement code. Every one produced a believable number
+rather than an error, and several survived for weeks as a result. The full list is in the
+paper; the ones most likely to recur in a reimplementation:
+
+- A parser that does not strip markdown fences from inside a structured output block will
+  score valid code as a syntax error. This moved our headline by 7.7 points.
+- A generation budget sized for the base model will truncate a fine-tuned model that has
+  learned to write longer preambles, and truncation is indistinguishable from a format
+  failure unless you check.
+- Saving a truncated copy of a failed output makes diagnosing the failure impossible, and
+  worse, produces a confident wrong diagnosis. Every one of our unparseable records was
+  exactly the length of the save cap.
+- Memory-availability heuristics on unified-memory systems are subtle. Gating on free
+  pages ignores reclaimable cache; subtracting compressor statistics can produce a negative
+  figure that clamps to zero and reports a swapping machine as healthy.
+
+Budget real time for this. Measurement code needs the same review as the samples it judges.
