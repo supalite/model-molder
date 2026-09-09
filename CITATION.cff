@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+authors:
+  - alias: supalite
+title: "The Verifier Is the Asset: Manufacturing Training Data for Domain-Specialised Code Models"
+message: "If you use this method or these results, please cite this repository."
+type: software
+abstract: >-
+  A method for manufacturing execution-verified training data for code models in domains
+  where correctness is decidable, adapting mutation testing to data synthesis. Includes
+  per-task evaluation results and a corpus provenance manifest.
+keywords:
+  - code generation
+  - synthetic data
+  - mutation testing
+  - Roblox Luau
+  - program verification
+license:
+  - Apache-2.0
+  - CC-BY-4.0
+  - CC0-1.0
